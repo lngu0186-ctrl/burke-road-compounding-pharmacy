@@ -54,7 +54,7 @@ export const BUSINESS = {
     googleMaps: 'https://maps.google.com/?q=629+Burke+Road+Camberwell+VIC+3124',
     googleBusinessProfile: '[VERIFY BEFORE LAUNCH]',
     googleReviews: '[VERIFY BEFORE LAUNCH]',
-    booking: '[VERIFY BEFORE LAUNCH]',
+    booking: 'https://www.medadvisor.com.au/Network/BurkeRoadDiscountDrugStore',
     whatsapp: 'https://wa.me/61450352483',
     prescriptionUpload: '/upload-prescription',
   },

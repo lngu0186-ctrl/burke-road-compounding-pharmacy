@@ -160,3 +160,18 @@
 - [x] Update business.ts with verified phone/mobile/fax/email/ABN
 - [x] Update SEO.tsx localBusinessSchema with correct details
 - [x] Update all pages referencing old placeholder contact details
+
+## Phase 10: Booking Link Update
+- [x] Update business.ts booking URL to MedAdvisor
+- [ ] Update all vaccination booking CTAs site-wide
+- [ ] Update all Chemist Care Now booking CTAs site-wide
+
+## Phase 10b: Prescription Upload iframe Replacement
+- [x] Create PrescriptionUploadEmbed component (iframe to burkerx.lovable.app)
+- [x] Replace UploadPrescription page with iframe embed
+- [x] Replace ConditionDetail prescription upload CTA with iframe embed
+- [x] Replace ArticleDetail prescription upload CTA with iframe embed
+- [x] Update Home.tsx prescription upload CTAs to point to /upload-prescription
+- [x] Update business.ts booking URL to MedAdvisor
+- [x] Update Services.tsx vaccination section to add Book button
+- [x] Update ChemistCareNow.tsx to add Book button

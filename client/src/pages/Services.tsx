@@ -1,6 +1,8 @@
 import { BUSINESS } from "@/config/business";
 import { Link } from "wouter";
 
+const BOOKING_URL = "https://www.medadvisor.com.au/Network/BurkeRoadDiscountDrugStore";
+
 const CDN = "https://d2xsxph8kpxj0f.cloudfront.net/93092134/Sz8SP7v55RRQvADhiwfHx5";
 
 const services = [
@@ -32,6 +34,9 @@ const services = [
       "Travel vaccines (hepatitis A, typhoid, and more)",
       "Whooping cough (pertussis) booster",
     ],
+    link: BOOKING_URL,
+    linkLabel: "Book a vaccination online",
+    linkExternal: true,
     image: null,
   },
   {
@@ -64,6 +69,9 @@ const services = [
       "Contraception advice",
       "Cold sores and minor infections",
     ],
+    link: BOOKING_URL,
+    linkLabel: "Book a Chemist Care Now consultation",
+    linkExternal: true,
     image: `${CDN}/consultation-friendly_d129865d.jpg`,
   },
   {
@@ -193,12 +201,25 @@ export default function Services() {
                   ))}
                 </ul>
                 {s.link && (
-                  <Link
-                    href={s.link}
-                    className="inline-flex items-center gap-2 text-[#1a4d2e]-700 font-semibold text-sm hover:text-[#1a4d2e]"
-                  >
-                    {s.linkLabel} →
-                  </Link>
+                  (s as any).linkExternal ? (
+                    <a
+                      href={s.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm text-white transition-all hover:opacity-90"
+                      style={{ backgroundColor: "var(--brp-green-800)" }}
+                    >
+                      {s.linkLabel} →
+                    </a>
+                  ) : (
+                    <Link
+                      href={s.link}
+                      className="inline-flex items-center gap-2 font-semibold text-sm hover:underline"
+                      style={{ color: "var(--brp-green-700)" }}
+                    >
+                      {s.linkLabel} →
+                    </Link>
+                  )
                 )}
               </div>
               <div className={idx % 2 === 1 ? "lg:order-1" : ""}>

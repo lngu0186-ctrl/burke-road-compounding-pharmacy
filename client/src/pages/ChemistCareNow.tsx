@@ -118,8 +118,17 @@ export default function ChemistCareNow() {
               </div>
 
               <a
-                href={`tel:${BUSINESS.phone.landlineE164}`}
+                href="https://www.medadvisor.com.au/Network/BurkeRoadDiscountDrugStore"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full px-6 py-3 font-bold rounded-xl text-white transition-all"
+                style={{ backgroundColor: "var(--brp-brass-700)" }}
+              >
+                Book Online <ArrowRight className="w-4 h-4" />
+              </a>
+              <a
+                href={`tel:${BUSINESS.phone.landlineE164}`}
+                className="flex items-center justify-center gap-2 w-full px-6 py-3 font-semibold rounded-xl text-white transition-all"
                 style={{ backgroundColor: "var(--brp-green-800)" }}
               >
                 Call us before visiting <ArrowRight className="w-4 h-4" />

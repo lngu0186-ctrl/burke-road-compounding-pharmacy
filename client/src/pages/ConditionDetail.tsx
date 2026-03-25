@@ -1,8 +1,9 @@
 import { Link } from "wouter";
-import { ArrowRight, AlertTriangle, Upload } from "lucide-react";
+import { ArrowRight, AlertTriangle } from "lucide-react";
 import SEO from "@/components/SEO";
 import Breadcrumb from "@/components/Breadcrumb";
 import { BUSINESS } from "@/config/business";
+import PrescriptionUploadEmbed from "@/components/PrescriptionUploadEmbed";
 
 interface ConditionData {
   icon: string;
@@ -529,38 +530,23 @@ export default function ConditionDetail({ params }: Props) {
           </div>
         )}
 
-        {/* Upload Prescription CTA */}
-        <div
-          className="rounded-2xl p-10 text-white text-center"
-          style={{ background: "linear-gradient(135deg, var(--brp-green-800) 0%, var(--brp-green-600) 100%)" }}
-        >
-          <Upload className="w-10 h-10 mx-auto mb-4 opacity-80" />
-          <h2
-            className="text-3xl font-bold mb-4"
-            style={{ fontFamily: "var(--font-display)" }}
-          >
-            Ready to get started?
-          </h2>
-          <p className="text-white/85 mb-8 max-w-xl mx-auto">
-            Contact our compounding pharmacists to discuss your needs, or send us your
-            prescription to get started.
+        {/* Upload Prescription — embedded iframe */}
+        <div className="mt-10">
+          <PrescriptionUploadEmbed height="700px" />
+        </div>
+
+        {/* Call CTA below embed */}
+        <div className="mt-6 text-center">
+          <p className="text-sm mb-3" style={{ color: "var(--brp-muted)" }}>
+            Prefer to speak with a pharmacist first?
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Link
-              href="/upload-prescription"
-              className="inline-flex items-center gap-2 px-7 py-3.5 font-bold rounded-xl transition-all"
-              style={{ backgroundColor: "var(--brp-brass-500)", color: "white" }}
-            >
-              Upload Prescription <ArrowRight className="w-4 h-4" />
-            </Link>
-            <a
-              href={`tel:${BUSINESS.phone.landlineE164}`}
-              className="inline-flex items-center gap-2 px-7 py-3.5 font-semibold rounded-xl border border-white/40 transition-all"
-              style={{ backgroundColor: "rgba(255,255,255,0.15)", color: "white" }}
-            >
-              Call {BUSINESS.phone.landline}
-            </a>
-          </div>
+          <a
+            href={`tel:${BUSINESS.phone.landlineE164}`}
+            className="inline-flex items-center gap-2 px-6 py-3 font-semibold rounded-xl text-white"
+            style={{ backgroundColor: "var(--brp-green-800)" }}
+          >
+            Call {BUSINESS.phone.landline} <ArrowRight className="w-4 h-4" />
+          </a>
         </div>
       </div>
     </>

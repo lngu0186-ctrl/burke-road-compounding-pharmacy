@@ -178,13 +178,13 @@ export default function ArticleDetail() {
                   >
                     Call Us
                   </a>
-                  <Link
+                  <a
                     href="/upload-prescription"
                     className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold text-sm border border-white/30 transition-all hover:bg-white/10"
                     style={{ color: "white", fontFamily: "var(--font-body)" }}
                   >
                     Upload Prescription
-                  </Link>
+                  </a>
                 </div>
               </div>
 
