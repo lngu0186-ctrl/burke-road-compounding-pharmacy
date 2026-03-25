@@ -175,3 +175,11 @@
 - [x] Update business.ts booking URL to MedAdvisor
 - [x] Update Services.tsx vaccination section to add Book button
 - [x] Update ChemistCareNow.tsx to add Book button
+
+## Phase 11: Audit Fixes
+- [x] Update top banner: remove emoji, make clickable link to script-share-pro.lovable.app, new text
+- [x] Fix street address to 1031 Burke Road in business.ts
+- [x] Fix Google Maps links to use 1031 Burke Road
+- [x] Add fax number to Contact page
+- [x] Fix broken /vaccinations footer link to /services#vaccinations
+- [x] Fix broken /delivery footer link

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { BUSINESS } from "@/config/business";
-import { Phone, MapPin, Clock, Mail, MessageCircle } from "lucide-react";
+import { Phone, MapPin, Clock, Mail, MessageCircle, Printer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -115,6 +115,17 @@ export default function Contact() {
                   <a href={`tel:${BUSINESS.phone.landlineE164}`} className="text-gray-600 text-sm hover:text-[#1a4d2e]">
                     {BUSINESS.phone.landline}
                   </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center shrink-0">
+                  <Printer className="w-6 h-6 text-[#1a4d2e]" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-1">Fax (Prescribers)</h3>
+                  <p className="text-gray-600 text-sm">{BUSINESS.phone.fax}</p>
+                  <p className="text-xs text-gray-400 mt-0.5">For faxed prescriptions and referrals</p>
                 </div>
               </div>
 

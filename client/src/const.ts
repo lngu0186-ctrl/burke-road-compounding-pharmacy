@@ -2,9 +2,9 @@
 export const PHARMACY_PHONE = "03 9882 5386";
 export const PHARMACY_PHONE_RAW = "0398825386";
 export const PHARMACY_EMAIL = "info@burkeroadpharmacy.com.au";
-export const PHARMACY_ADDRESS = "629 Burke Road, Camberwell VIC 3124";
+export const PHARMACY_ADDRESS = "1031 Burke Road, Camberwell VIC 3124";
 export const PHARMACY_MAPS_URL =
-  "https://maps.google.com/?q=629+Burke+Road+Camberwell+VIC+3124";
+  "https://maps.google.com/?q=1031+Burke+Road+Camberwell+VIC+3124";
 export const PHARMACY_WHATSAPP = "https://wa.me/61450352483";
 
 // OAuth helper (used by auth system)

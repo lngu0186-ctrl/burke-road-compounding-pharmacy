@@ -15,15 +15,15 @@ export const BUSINESS = {
   established: '1963',
 
   address: {
-    street: '629 Burke Road',
+    street: '1031 Burke Road',
     suburb: 'Camberwell',
     state: 'VIC',
     postcode: '3124',
     country: 'AU',
-    full: '629 Burke Road, Camberwell VIC 3124',
-    googleMapsQuery: 'Burke+Road+Compounding+Pharmacy+629+Burke+Road+Camberwell+VIC',
-    lat: -37.826,
-    lng: 145.062,
+    full: '1031 Burke Road, Camberwell VIC 3124',
+    googleMapsQuery: 'Burke+Road+Compounding+Pharmacy+1031+Burke+Road+Camberwell+VIC',
+    lat: -37.8432,
+    lng: 145.0726,
   },
 
   phone: {
@@ -51,7 +51,7 @@ export const BUSINESS = {
   urls: {
     production: 'https://burkeroadpharmacy.com.au',
     staging: 'https://burkepharm-sz8sp7v5.manus.space',
-    googleMaps: 'https://maps.google.com/?q=629+Burke+Road+Camberwell+VIC+3124',
+    googleMaps: 'https://maps.google.com/?q=1031+Burke+Road+Camberwell+VIC+3124',
     googleBusinessProfile: '[VERIFY BEFORE LAUNCH]',
     googleReviews: '[VERIFY BEFORE LAUNCH]',
     booking: 'https://www.medadvisor.com.au/Network/BurkeRoadDiscountDrugStore',

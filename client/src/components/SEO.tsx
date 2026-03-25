@@ -72,7 +72,7 @@ export const localBusinessSchema = {
   email: "info@burkeroadpharmacy.com.au",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "629 Burke Road",
+    streetAddress: "1031 Burke Road",
     addressLocality: "Camberwell",
     addressRegion: "VIC",
     postalCode: "3124",
@@ -80,8 +80,8 @@ export const localBusinessSchema = {
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: -37.826,
-    longitude: 145.062,
+    latitude: -37.8432,
+    longitude: 145.0726,
   },
   openingHoursSpecification: [
     {
@@ -103,7 +103,7 @@ export const localBusinessSchema = {
     reviewCount: "127",
     bestRating: "5",
   },
-  hasMap: "https://maps.google.com/?q=629+Burke+Road+Camberwell+VIC+3124",
+  hasMap: "https://maps.google.com/?q=1031+Burke+Road+Camberwell+VIC+3124",
   priceRange: "$$",
   currenciesAccepted: "AUD",
   paymentAccepted: "Cash, Credit Card, EFTPOS, Medicare",

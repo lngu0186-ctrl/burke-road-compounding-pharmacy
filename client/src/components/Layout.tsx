@@ -23,12 +23,12 @@ const navItems = [
     children: [
       { label: "All Services", href: "/services" },
       { label: "PBS Dispensing", href: "/services#pbs" },
-      { label: "Vaccinations", href: "/vaccinations" },
+      { label: "Vaccinations", href: "/services#vaccinations" },
       { label: "Chemist Care Now", href: "/services/chemist-care-now" },
       { label: "Travel Health", href: "/services/travel-health" },
       { label: "Plant-Based Therapies", href: "/services/plant-based-therapies" },
       { label: "Dose Administration Aids", href: "/services#daa" },
-      { label: "Delivery", href: "/delivery" },
+      { label: "Delivery", href: "/services#delivery" },
     ],
   },
   {
@@ -231,26 +231,16 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Announcement Bar */}
-      <div className="bg-[#1a3a2e] text-white text-center py-2 px-4 text-sm font-medium">
-        📋 Send us your prescription via photo —{" "}
-        <a
-          href={`tel:${BUSINESS.phone.landline}`}
-          className="underline hover:no-underline"
-          aria-label={`Call ${BUSINESS.phone.landline}`}
-        >
-          {BUSINESS.phone.landline}
-        </a>{" "}
-        or{" "}
-        <a
-          href={whatsappHref("Hi, I'd like to send my prescription")}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline hover:no-underline"
-          aria-label="Send prescription via WhatsApp"
-        >
-          WhatsApp
-        </a>
-      </div>
+      <a
+        href="https://script-share-pro.lovable.app"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block bg-[#1a3a2e] text-white text-center py-2 px-4 text-sm font-medium hover:bg-[#243f33] transition-colors"
+        aria-label="Upload your prescription online"
+      >
+        Upload your prescription now or text us on:{" "}
+        <span className="underline font-bold">{BUSINESS.phone.mobile}</span>
+      </a>
 
       {/* Main Navigation */}
       <header className="sticky top-0 z-40 bg-[#1a3a2e] shadow-lg">
@@ -469,12 +459,12 @@ export default function Layout({ children }: LayoutProps) {
                 {[
                   { label: "PBS Dispensing", href: "/services#pbs" },
                   { label: "Compounding", href: "/compounding" },
-                  { label: "Vaccinations", href: "/vaccinations" },
+                  { label: "Vaccinations", href: "/services#vaccinations" },
                   { label: "Chemist Care Now", href: "/services/chemist-care-now" },
                   { label: "Travel Health", href: "/services/travel-health" },
                   { label: "Dose Administration Aids", href: "/services#daa" },
                   { label: "DVA & Veteran Cards", href: "/services#dva" },
-                  { label: "Australia-wide Delivery", href: "/delivery" },
+                  { label: "Australia-wide Delivery", href: "/services#delivery" },
                 ].map((s) => (
                   <li key={s.href}>
                     <Link href={s.href} className="hover:text-white transition-colors">
