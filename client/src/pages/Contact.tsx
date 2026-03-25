@@ -7,14 +7,29 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
+import { trpc } from "@/lib/trpc";
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState({
+    firstName: "", lastName: "", email: "", phone: "",
+    enquiryType: "general", message: ""
+  });
+
+  const submitMutation = trpc.contact.submit.useMutation({
+    onSuccess: () => {
+      toast.success("Message sent! We'll get back to you within 1 business day.");
+      setSubmitted(true);
+    },
+    onError: (err) => {
+      toast.error("Failed to send message. Please call us directly on (03) 9889 8622.");
+      console.error(err);
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Message sent! We'll get back to you within 1 business day.");
-    setSubmitted(true);
+    submitMutation.mutate(form);
   };
 
   return (
@@ -188,13 +203,13 @@ export default function Contact() {
                     <Label htmlFor="firstName" className="text-sm font-medium text-gray-700">
                       First Name <span className="text-red-500">*</span>
                     </Label>
-                    <Input id="firstName" required className="mt-1" />
+                    <Input id="firstName" required className="mt-1" value={form.firstName} onChange={e => setForm(f => ({...f, firstName: e.target.value}))} />
                   </div>
                   <div>
                     <Label htmlFor="lastName" className="text-sm font-medium text-gray-700">
                       Last Name <span className="text-red-500">*</span>
                     </Label>
-                    <Input id="lastName" required className="mt-1" />
+                    <Input id="lastName" required className="mt-1" value={form.lastName} onChange={e => setForm(f => ({...f, lastName: e.target.value}))} />
                   </div>
                 </div>
 
@@ -202,21 +217,21 @@ export default function Contact() {
                   <Label htmlFor="email" className="text-sm font-medium text-gray-700">
                     Email Address <span className="text-red-500">*</span>
                   </Label>
-                  <Input id="email" type="email" required className="mt-1" />
+                  <Input id="email" type="email" required className="mt-1" value={form.email} onChange={e => setForm(f => ({...f, email: e.target.value}))} />
                 </div>
 
                 <div>
                   <Label htmlFor="phone" className="text-sm font-medium text-gray-700">
                     Phone Number
                   </Label>
-                  <Input id="phone" type="tel" className="mt-1" />
+                  <Input id="phone" type="tel" className="mt-1" value={form.phone} onChange={e => setForm(f => ({...f, phone: e.target.value}))} />
                 </div>
 
                 <div>
                   <Label htmlFor="enquiryType" className="text-sm font-medium text-gray-700">
                     Enquiry Type
                   </Label>
-                  <Select defaultValue="general">
+                  <Select value={form.enquiryType} onValueChange={val => setForm(f => ({...f, enquiryType: val}))}>
                     <SelectTrigger className="mt-1">
                       <SelectValue />
                     </SelectTrigger>
@@ -241,6 +256,8 @@ export default function Contact() {
                     rows={5}
                     placeholder="How can we help you?"
                     className="mt-1"
+                    value={form.message}
+                    onChange={e => setForm(f => ({...f, message: e.target.value}))}
                   />
                 </div>
 
@@ -253,9 +270,10 @@ export default function Contact() {
 
                 <Button
                   type="submit"
+                  disabled={submitMutation.isPending}
                   className="w-full bg-[#1a4d2e] hover:bg-[#2d6a4f] text-white py-3"
                 >
-                  Send Message
+                  {submitMutation.isPending ? "Sending..." : "Send Message"}
                 </Button>
               </form>
             )}

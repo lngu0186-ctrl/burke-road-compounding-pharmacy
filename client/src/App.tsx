@@ -14,8 +14,8 @@ import Prescribers from "./pages/Prescribers";
 import KnowledgeCentre from "./pages/KnowledgeCentre";
 import Contact from "./pages/Contact";
 import Services from "./pages/Services";
-
 function Router() {
+  // make sure to consider if you need authentication for certain routes
   return (
     <Layout>
       <Switch>

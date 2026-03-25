@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
+import { trpc } from "@/lib/trpc";
 
-const articles = [
+const staticArticles = [
   {
     category: "Hormone Therapy",
     title: "Understanding Bioidentical Hormone Replacement Therapy (BHRT)",
@@ -68,9 +70,16 @@ const articles = [
   },
 ];
 
-const categories = ["All", "Hormone Therapy", "Pain Management", "LDN", "PBS", "Compounding", "Paediatrics", "Vaccinations", "Dermatology"];
+// categories derived dynamically in component
 
 export default function KnowledgeCentre() {
+  const [activeCategory, setActiveCategory] = useState("All");
+  const { data: dbArticles } = trpc.articles.list.useQuery(
+    activeCategory !== "All" ? { category: activeCategory } : {}
+  );
+  const displayArticles = dbArticles ?? staticArticles;
+  const allCategories = ["All", ...Array.from(new Set(staticArticles.map(a => a.category)))];
+
   return (
     <div className="bg-[#f9fafb]">
       {/* Header */}
@@ -94,11 +103,12 @@ export default function KnowledgeCentre() {
       <div className="container py-16">
         {/* Category Filter */}
         <div className="flex flex-wrap gap-2 mb-10">
-          {categories.map((cat) => (
+          {allCategories.map((cat) => (
             <button
               key={cat}
+              onClick={() => setActiveCategory(cat)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                cat === "All"
+                cat === activeCategory
                   ? "bg-[#1a4d2e] text-white"
                   : "bg-white text-gray-700 border border-border hover:border-[#2d6a4f] hover:text-[#1a4d2e]"
               }`}
@@ -110,11 +120,11 @@ export default function KnowledgeCentre() {
 
         {/* Articles Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          {articles.map((a) => (
+          {displayArticles.map((a) => (
             <div key={a.slug} className="brp-card p-6 flex flex-col">
               <div className="flex items-center justify-between mb-4">
                 <span className="brp-badge text-xs">{a.category}</span>
-                <span className="text-gray-400 text-xs">{a.readTime}</span>
+                <span className="text-gray-400 text-xs">{'readTimeMinutes' in a ? `${a.readTimeMinutes} min read` : (a as any).readTime}</span>
               </div>
               <h3
                 className="text-xl font-bold text-[#1a4d2e] mb-3 leading-snug"

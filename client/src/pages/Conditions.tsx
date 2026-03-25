@@ -1,21 +1,25 @@
 import { Link } from "wouter";
+import { trpc } from "@/lib/trpc";
 
-const conditions = [
-  { icon: "⚖️", label: "Hormone Therapy", slug: "hormone-therapy", desc: "Bioidentical HRT, menopause management, thyroid support, and testosterone therapy" },
-  { icon: "💊", label: "Pain Management", slug: "pain-management", desc: "Topical analgesics, neuropathic pain, chronic pain solutions, and PLO gels" },
-  { icon: "🌿", label: "Dermatology", slug: "dermatology", desc: "Custom skincare, anti-ageing, acne treatments, and wound care formulations" },
-  { icon: "👶", label: "Paediatrics", slug: "paediatrics", desc: "Child-friendly flavours, precise dosing, and age-appropriate formulations" },
-  { icon: "🐾", label: "Veterinary", slug: "veterinary", desc: "Pet medications in palatable forms, precise dosing for all animal sizes" },
-  { icon: "🧬", label: "Low Dose Naltrexone", slug: "low-dose-naltrexone", desc: "LDN for autoimmune conditions, chronic pain, and inflammatory disorders" },
-  { icon: "♂️", label: "Men's Health", slug: "mens-health", desc: "Testosterone therapy, erectile dysfunction, hair loss, and vitality support" },
-  { icon: "♀️", label: "Women's Health", slug: "womens-health", desc: "PCOS, endometriosis, fertility support, and pregnancy wellness" },
-  { icon: "🏃", label: "Sports Medicine", slug: "sports-medicine", desc: "Performance enhancement, injury recovery, and topical anti-inflammatories" },
-  { icon: "🦷", label: "Dental", slug: "dental", desc: "Oral rinses, anaesthetic preparations, and specialised dental formulations" },
-  { icon: "🫁", label: "Gastroenterology", slug: "gastroenterology", desc: "IBS, IBD, reflux management, and digestive health support" },
-  { icon: "🧠", label: "Mental Health", slug: "mental-health", desc: "Anxiety, depression, ADHD, and mood disorder support" },
+const staticConditions = [
+  { icon: "⚖️", title: "Hormone Therapy", slug: "hormone-therapy", summary: "Bioidentical HRT, menopause management, thyroid support, and testosterone therapy" },
+  { icon: "💊", title: "Pain Management", slug: "pain-management", summary: "Topical analgesics, neuropathic pain, chronic pain solutions, and PLO gels" },
+  { icon: "🌿", title: "Dermatology", slug: "dermatology", summary: "Custom skincare, anti-ageing, acne treatments, and wound care formulations" },
+  { icon: "👶", title: "Paediatrics", slug: "paediatrics", summary: "Child-friendly flavours, precise dosing, and age-appropriate formulations" },
+  { icon: "🐾", title: "Veterinary", slug: "veterinary", summary: "Pet medications in palatable forms, precise dosing for all animal sizes" },
+  { icon: "🧬", title: "Low Dose Naltrexone", slug: "low-dose-naltrexone", summary: "LDN for autoimmune conditions, chronic pain, and inflammatory disorders" },
+  { icon: "♂️", title: "Men's Health", slug: "mens-health", summary: "Testosterone therapy, erectile dysfunction, hair loss, and vitality support" },
+  { icon: "♀️", title: "Women's Health", slug: "womens-health", summary: "PCOS, endometriosis, fertility support, and pregnancy wellness" },
+  { icon: "🏃", title: "Sports Medicine", slug: "sports-medicine", summary: "Performance enhancement, injury recovery, and topical anti-inflammatories" },
+  { icon: "🦷", title: "Dental", slug: "dental", summary: "Oral rinses, anaesthetic preparations, and specialised dental formulations" },
+  { icon: "🫁", title: "Gastroenterology", slug: "gastroenterology", summary: "IBS, IBD, reflux management, and digestive health support" },
+  { icon: "🧠", title: "Mental Health", slug: "mental-health", summary: "Anxiety, depression, ADHD, and mood disorder support" },
 ];
 
 export default function Conditions() {
+  const { data: dbConditions, isLoading } = trpc.conditions.list.useQuery();
+  const displayConditions = dbConditions ?? staticConditions;
+
   return (
     <div className="bg-[#f9fafb]">
       <div className="brp-gradient py-16 text-white">
@@ -53,7 +57,7 @@ export default function Conditions() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {conditions.map((c) => (
+          {displayConditions.map((c) => (
             <Link
               key={c.slug}
               href={`/conditions/${c.slug}`}
@@ -64,9 +68,9 @@ export default function Conditions() {
                 className="text-xl font-bold text-[#1a4d2e] mb-2 group-hover:text-[#2d6a4f]"
                 style={{ fontFamily: "'Playfair Display', serif" }}
               >
-                {c.label}
+                {c.title}
               </h3>
-              <p className="text-gray-600 text-sm leading-relaxed">{c.desc}</p>
+              <p className="text-gray-600 text-sm leading-relaxed">{c.summary}</p>
             </Link>
           ))}
         </div>

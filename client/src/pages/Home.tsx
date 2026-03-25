@@ -5,6 +5,7 @@
  */
 import { Link } from "wouter";
 import { ArrowRight, Star, Truck, Syringe, Pill, Clock, Phone, MapPin } from "lucide-react";
+import { trpc } from "@/lib/trpc";
 
 const CDN = "https://d2xsxph8kpxj0f.cloudfront.net/93092134/Sz8SP7v55RRQvADhiwfHx5";
 
@@ -89,6 +90,13 @@ const testimonials = [
 ];
 
 export default function Home() {
+  const { data: dbConditions } = trpc.conditions.list.useQuery();
+  const { data: dbTestimonials } = trpc.testimonials.list.useQuery();
+
+  // Use DB data if available, fall back to static data
+  const displayConditions = dbConditions ?? conditions;
+  const displayTestimonials = dbTestimonials ?? testimonials;
+
   return (
     <div className="bg-[#f9fafb]">
       {/* ── Hero ─────────────────────────────────────────── */}

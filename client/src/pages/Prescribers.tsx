@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { Plus, Trash2, FileText } from "lucide-react";
+import { Plus, Trash2, FileText, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
+import { trpc } from "@/lib/trpc";
 
 interface Medication {
   id: string;
@@ -36,6 +37,15 @@ function newMed(): Medication {
 
 export default function Prescribers() {
   const [medications, setMedications] = useState<Medication[]>([newMed()]);
+  const [prescriber, setPrescriber] = useState({
+    prescriberName: "", prescriberNumber: "", qualifications: "",
+    practiceName: "", practicePhone: "", practiceEmail: "", practiceAddress: ""
+  });
+  const [patient, setPatient] = useState({
+    patientName: "", patientDob: "", patientPhone: "",
+    patientAddress: "", medicareNumber: "", allergies: "", specialInstructions: ""
+  });
+  const [prescriptionDate, setPrescriptionDate] = useState(new Date().toISOString().split("T")[0]);
 
   const addMed = () => setMedications((m) => [...m, newMed()]);
   const removeMed = (id: string) =>
@@ -44,6 +54,25 @@ export default function Prescribers() {
     setMedications((m) =>
       m.map((med) => (med.id === id ? { ...med, [field]: value } : med))
     );
+
+  const submitMutation = trpc.prescriptions.submit.useMutation({
+    onSuccess: () => {
+      toast.success("Prescription submitted to Burke Road Pharmacy!");
+    },
+    onError: (err) => {
+      toast.error("Submission failed. Please call (03) 9889 8622.");
+      console.error(err);
+    },
+  });
+
+  const handleSubmit = () => {
+    submitMutation.mutate({
+      ...prescriber,
+      ...patient,
+      medications: JSON.stringify(medications),
+      prescriptionDate,
+    });
+  };
 
   const handlePrint = () => {
     toast.success("Opening print dialog…");
@@ -92,26 +121,36 @@ export default function Prescribers() {
             Prescriber Details
           </h3>
           <div className="grid md:grid-cols-2 gap-4">
-            {[
+            {([
               { id: "prescriberName", label: "Prescriber Name", required: true },
               { id: "prescriberNumber", label: "Prescriber Number", required: true },
               { id: "qualifications", label: "Qualifications", required: true },
               { id: "practiceName", label: "Practice Name", required: true },
               { id: "practicePhone", label: "Practice Phone", required: true },
               { id: "practiceEmail", label: "Practice Email", required: false },
-            ].map((f) => (
+            ] as { id: keyof typeof prescriber; label: string; required: boolean }[]).map((f) => (
               <div key={f.id}>
                 <Label htmlFor={f.id} className="text-sm font-medium text-gray-700">
                   {f.label} {f.required && <span className="text-red-500">*</span>}
                 </Label>
-                <Input id={f.id} className="mt-1" />
+                <Input
+                  id={f.id}
+                  className="mt-1"
+                  value={prescriber[f.id]}
+                  onChange={e => setPrescriber(p => ({...p, [f.id]: e.target.value}))}
+                />
               </div>
             ))}
             <div className="md:col-span-2">
               <Label htmlFor="practiceAddress" className="text-sm font-medium text-gray-700">
                 Practice Address <span className="text-red-500">*</span>
               </Label>
-              <Input id="practiceAddress" className="mt-1" />
+              <Input
+                id="practiceAddress"
+                className="mt-1"
+                value={prescriber.practiceAddress}
+                onChange={e => setPrescriber(p => ({...p, practiceAddress: e.target.value}))}
+              />
             </div>
           </div>
         </section>
@@ -122,38 +161,59 @@ export default function Prescribers() {
             Patient Details
           </h3>
           <div className="grid md:grid-cols-2 gap-4">
-            {[
+            {([
               { id: "patientName", label: "Patient Full Name", required: true },
-              { id: "dob", label: "Date of Birth", required: true, type: "date" },
+              { id: "patientDob", label: "Date of Birth", required: true, type: "date" },
               { id: "patientPhone", label: "Patient Phone (Primary)", required: true },
-              { id: "patientPhone2", label: "Patient Phone (Secondary)", required: false },
-              { id: "medicare", label: "Medicare Number", required: false },
-              { id: "concession", label: "Concession Card Number", required: false },
-            ].map((f) => (
+              { id: "medicareNumber", label: "Medicare Number", required: false },
+            ] as { id: keyof typeof patient; label: string; required: boolean; type?: string }[]).map((f) => (
               <div key={f.id}>
                 <Label htmlFor={f.id} className="text-sm font-medium text-gray-700">
                   {f.label} {f.required && <span className="text-red-500">*</span>}
                 </Label>
-                <Input id={f.id} type={f.type || "text"} className="mt-1" />
+                <Input
+                  id={f.id}
+                  type={f.type || "text"}
+                  className="mt-1"
+                  value={patient[f.id]}
+                  onChange={e => setPatient(p => ({...p, [f.id]: e.target.value}))}
+                />
               </div>
             ))}
             <div className="md:col-span-2">
               <Label htmlFor="patientAddress" className="text-sm font-medium text-gray-700">
                 Patient Address <span className="text-red-500">*</span>
               </Label>
-              <Input id="patientAddress" className="mt-1" />
+              <Input
+                id="patientAddress"
+                className="mt-1"
+                value={patient.patientAddress}
+                onChange={e => setPatient(p => ({...p, patientAddress: e.target.value}))}
+              />
             </div>
             <div className="md:col-span-2">
               <Label htmlFor="allergies" className="text-sm font-medium text-gray-700">
                 Known Allergies / Sensitivities
               </Label>
-              <Textarea id="allergies" className="mt-1" rows={2} />
+              <Textarea
+                id="allergies"
+                className="mt-1"
+                rows={2}
+                value={patient.allergies}
+                onChange={e => setPatient(p => ({...p, allergies: e.target.value}))}
+              />
             </div>
             <div className="md:col-span-2">
               <Label htmlFor="specialInstructions" className="text-sm font-medium text-gray-700">
                 Special Instructions / Patient Preferences
               </Label>
-              <Textarea id="specialInstructions" className="mt-1" rows={2} />
+              <Textarea
+                id="specialInstructions"
+                className="mt-1"
+                rows={2}
+                value={patient.specialInstructions}
+                onChange={e => setPatient(p => ({...p, specialInstructions: e.target.value}))}
+              />
             </div>
           </div>
         </section>
@@ -308,7 +368,8 @@ export default function Prescribers() {
               <Input
                 id="prescriptionDate"
                 type="date"
-                defaultValue={new Date().toISOString().split("T")[0]}
+                value={prescriptionDate}
+                onChange={e => setPrescriptionDate(e.target.value)}
                 className="mt-1"
               />
             </div>
@@ -337,10 +398,18 @@ export default function Prescribers() {
         {/* Actions */}
         <div className="flex flex-wrap gap-4">
           <Button
-            onClick={handlePrint}
-            className="flex items-center gap-2 bg-[#1a4d2e] hover:bg-[#2d6a4f] text-white px-8 py-3"
+            onClick={handleSubmit}
+            disabled={submitMutation.isPending}
+            className="flex items-center gap-2 bg-[#2d6a4f] hover:bg-[#1a4d2e] text-white px-8 py-3"
           >
-            <FileText className="w-5 h-5" /> Generate &amp; Print Prescription
+            <Send className="w-5 h-5" /> {submitMutation.isPending ? "Submitting..." : "Submit to Pharmacy"}
+          </Button>
+          <Button
+            onClick={handlePrint}
+            variant="outline"
+            className="flex items-center gap-2 border-[#1a4d2e] text-[#1a4d2e] px-8 py-3"
+          >
+            <FileText className="w-5 h-5" /> Generate &amp; Print
           </Button>
           <a
             href="tel:0398898622"
